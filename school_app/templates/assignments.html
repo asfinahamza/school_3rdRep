@@ -1,0 +1,42 @@
+{% extends 'studentDB.html' %}
+{% block stdash1 %}
+{% load static %}
+<div class="container" align="center">
+    <div class="card" style="margin: 5% 5% 5% 5%;">
+        <h5 class="card-title mt-3">Assignment1:Watch the video and make a note based on that.</h5>
+        <video width="100%" height="auto" controls>
+          <source src="{% static 'images/abc.mkv' %}" type="video/mp4">
+         
+          Your browser does not support the video tag.
+        </video>
+        <div class="card-body">
+         
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          <a href="#" class="btn btn-primary">comment</a>
+          <a href="#" class="btn btn-primary">Respond</a>
+        </div>
+      </div>
+      <div class="card" style="margin: 5% 5% 5% 5%;">
+        <h5 class="card-title mt-3">Assignment2:Match the following</h5>
+        <img src="{% static 'images/evnt2.jpg' %}" class="d-block w-100 caro_img " alt="...">
+        <div class="card-body">
+         
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          <a href="#" class="btn btn-primary">comment</a>
+          <a href="#" class="btn btn-primary">Respond</a>
+        </div>
+      </div>
+      <div class="card" style="margin: 5% 5% 5% 5%;">
+        <h5 class="card-title mt-3">Assignment3:Copywriting pg no-36</h5>
+        <img src="{% static 'images/evnt3.jpg' %}" class="d-block w-100 caro_img " alt="...">
+        <div class="card-body">
+         
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          <a href="#" class="btn btn-primary">comment</a>
+          <a href="#" class="btn btn-primary">Respond</a>
+        </div>
+      </div>
+
+  
+</div>  
+{% endblock %}

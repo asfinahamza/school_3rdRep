@@ -1,0 +1,42 @@
+{% extends 'studentDB.html' %}
+{% block stdash1 %}
+{% load static %}
+
+<div class="card card-profile">
+<table class="table-profile mt-3 mb-5" align="center">
+    <tr>
+        <td align="center"><h2>PROFILE</h2></td>
+    </tr>
+    <tr>
+        <td><img class="mt-4 mb-5" src="/school_app/media/{{data.profile_pic}}" alt="" height="150" width="150"></td>
+    </tr>
+    <tr>
+        
+        <td>first name:</td>
+        <td>{{data.first_name}}</td>
+    </tr>
+    <tr>
+        <td>Last name:</td>
+        <td>{{data.last_name}}</td>
+    </tr>
+    <tr>
+        <td>DOB</td>
+        <td>{{data.dob}}</td>
+    </tr>
+    <tr>
+        <td>Class</td>
+        <td>{{data.classes}}</td>
+    </tr>
+    <tr>
+        <td>contact</td>
+        <td>{{data.contact}}</td>
+    </tr>
+    
+</table>
+</div>
+   
+{% endblock %}
+
+
+
+

@@ -1,0 +1,343 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/dash.css' %}">
+
+    <style>
+        form {
+            margin: 100px;
+            margin-top: 55px;
+        }
+        
+        h1 {
+            color: green;
+            margin-top: 15px;
+        }
+        
+        small {
+            color: red;
+        }
+        
+        .logincard {
+            background-color: lightcoral;
+        }
+        
+        header {
+            margin-top: 0px;
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        
+            
+
+
+                <h1 class="display2" align="center">Registration Form</h1>
+                <form action="studentReg" method="POST" name="valform" onsubmit="return validate()" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="">Registration ID:</label>
+                        <input type="text" class="" id="regid1" name="regid1" readonly>
+                        
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="">First name:</label>
+                        <input type="text" class="form-control" id="name1" name="name1">
+                        <small id="errname1" class=""></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Last name:</label>
+                        <input type="text" class="form-control" id="name2" name="name2">
+                        <small id="errname2" class=""></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Class:</label>
+                        <input type="text" class="form-control" id="class1" name="class1">
+                        <small id="err_class" class=""></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">contact no:</label>
+                        <input type="number" class="form-control" id="contact1" name="contact1">
+                        <small id="errcontact" class=""></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Address:</label>
+                        <textarea class="form-control" id="address1" name="address1" rows="3"></textarea>
+                        <small id="erradress1" class=""></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Date of Birth:</label>
+                        <input type="date" class="form-control" id="dob1" name="dob1">
+                        <small id="errdob" class=""></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="">Username:</label>
+                        <input type="text" class="form-control" id="u_name" name="u_name">
+                        <small id="err_u_name" class=""></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">password:</label>
+                        <input type="password" class="form-control" id="password1" name="password1">
+                        <small id="errpassword1" class=""></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">confirm password:</label>
+                        <input type="password" class="form-control" id="password2" name="password2">
+                        <small id="errpassword2" class=""></small>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                         <label for="">Profile picture:</label>
+                        <div class="custom-file mb-3">
+                            <input type="file" accept="image/*" class="custom-file-input" name="profPic">
+                            <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                          </div>
+                      </div>
+
+                    <button type="" class="btn btn-primary">Submit</button>
+                </form>
+                {{message}}
+            </div>
+
+
+
+            <!-- validation -->
+            <script>
+
+            function validate() {
+                 rt = true;
+
+                   
+
+                    ///////validate password///////////
+                    password1 = document.forms["valform"]["password1"].value;
+                    password2 = document.forms["valform"]["password2"].value;
+                    if (password1 == "") {
+                        document.getElementById("errpassword1").innerHTML = "Enter password"
+                        document.getElementById('password1').style.borderColor = "red";
+                        document.forms["valform"]["password1"].focus();
+                        rt = false;
+                    } else if (password1.length <= 5 || password1.length >= 21) {
+                        document.getElementById("errpassword1").innerHTML = "6-20 charecters only"
+                        document.getElementById('password1').style.borderColor = "red";
+                        document.forms["valform"]["password1"].focus();
+                        rt = false;
+                    } else if (password1 != password2) {
+                        document.getElementById("errpassword1").innerHTML = ""
+                        document.getElementById('password1').style.borderColor = "grey";
+                        document.getElementById("errpassword2").innerHTML = "Confirm your password"
+                        document.getElementById('password2').style.borderColor = "red";
+                        document.forms["valform"]["password2"].focus();
+                        rt = false;
+                    } else {
+                        document.getElementById("errpassword2").innerHTML = ""
+                        document.getElementById('password2').style.borderColor = "grey";
+                    }
+
+                    //////////////////////////
+
+                    
+
+
+
+                //    ///////////////username validation/////////////
+                   u_name = document.forms["valform"]["u_name"].value;
+
+                    if (u_name == "") {
+                        document.getElementById("err_u_name").innerHTML = "Enter your name"
+                        document.getElementById('u_name').style.borderColor = "red";
+                        document.forms["valform"]["u_name"].focus();
+                        rt = false;
+                    } else if (u_name.length <= 5) {
+                        document.getElementById("err_u_name").innerHTML = "Must contain 6 or more characters"
+                        document.getElementById('u_name').style.borderColor = "red";
+                        document.forms["valform"]["u_name"].focus();
+                        rt = false;
+                    } else if (/[^a-z]/gi.test(u_name)) {
+                        document.getElementById("err_u_name").innerHTML = "alphabets only!!"
+                        document.getElementById('u_name').style.borderColor = "red";
+                        document.forms["valform"]["u_name"].focus();
+                        rt = false;
+                    } else {
+                        document.getElementById("err_u_name").innerHTML = ""
+                        document.getElementById('u_name').style.borderColor = "grey";
+                    }
+                //     ////////////////////
+
+                //  ///////validate dob///////////
+                 
+                 dob1 = document.forms["valform"]["dob1"].value;
+                    if (dob1 == "") {
+                        document.getElementById("errdob").innerHTML = "Enter your date of birth"
+                        document.getElementById('dob1').style.borderColor = "red";
+                        document.forms["valform"]["dob1"].focus();
+                        rt = false;
+                    
+                    } else {
+                        document.getElementById("errdob").innerHTML = ""
+                        document.getElementById('dob1').style.borderColor = "grey";
+                    }
+
+                //     //////////////////////////
+
+
+
+
+                //  ///////validate address///////////
+                 
+                 address1 = document.forms["valform"]["address1"].value;
+                    if (address1 == "") {
+                        document.getElementById("erradress1").innerHTML = "Enter your adress"
+                        document.getElementById('address1').style.borderColor = "red";
+                        document.forms["valform"]["address1"].focus();
+                        rt = false;
+                    
+                    } else {
+                        document.getElementById("erradress1").innerHTML = ""
+                        document.getElementById('address1').style.borderColor = "grey";
+                    }
+
+                //     //////////////////////////
+
+
+
+
+                // ////////contact number validation//////////
+
+                
+                    contact1 = document.forms["valform"]["contact1"].value;
+
+
+                    if (contact1 == "") {
+                        document.getElementById("errcontact").innerHTML = "enter contact number"
+                        document.getElementById('contact1').style.borderColor = "red";
+                        document.forms["valform"]["contact1"].focus();
+                        rt = false;
+                    } else if (contact1.length != 10) {
+                        document.getElementById("errcontact").innerHTML = "contact number seems incorrect!"
+                        document.getElementById('contact1').style.borderColor = "red";
+                        document.forms["valform"]["contact1"].focus();
+                        rt = false;
+                    } else if (isNaN(contact1)) {
+                        document.getElementById("errcontact").innerHTML = "Enter a valid mobile number!"
+                        document.getElementById('contact1').style.borderColor = "red";
+                        document.forms["valform"]["contact1"].focus();
+                        rt = false;
+                    } else {
+                        document.getElementById("errcontact").innerHTML = ""
+                        document.getElementById('contact1').style.borderColor = "grey";
+                    }
+
+                //     ///////////////////////////////////////////////
+
+
+
+
+                    
+
+                //     /////////class validation
+                    class1 = document.forms["valform"]["class1"].value;
+                    if (class1 == "") {
+                        document.getElementById("err_class").innerHTML = "enter your class"
+                        document.getElementById('class1').style.borderColor = "red";
+                        document.forms["valform"]["class1"].focus();
+                        rt = false;
+                    } else if (isNaN(class1)) {
+                        if (class1 != 'LKG' && class1 != 'UKG') {
+
+                            document.getElementById("err_class").innerHTML = "Enter a valid class name!"
+                            document.getElementById('class1').style.borderColor = "red";
+                            document.forms["valform"]["class1"].focus();
+                            rt = false;
+                        }
+                    } else if (class1 > 10 || class1 == 0) {
+                        document.getElementById("err_class").innerHTML = "class seems incorrect!"
+                        document.getElementById('class1').style.borderColor = "red";
+                        document.forms["valform"]["class1"].focus();
+                        rt = false
+
+                    } else {
+                        document.getElementById("err_class").innerHTML = ""
+                        document.getElementById('class1').style.borderColor = "grey";
+                    }
+
+                //     /////////////////////////
+
+
+                    
+
+                    
+                //     ///////////////last_name validation/////////////
+
+                    name2 = document.forms["valform"]["name2"].value;
+                    if (name2 == "") {
+                        document.getElementById("errname2").innerHTML = "Enter your second name"
+                        document.getElementById('name2').style.borderColor = "red";
+                        document.forms["valform"]["name2"].focus();
+                        rt = false;
+                    } else if (name2.length <= 5) {
+                        document.getElementById("errname2").innerHTML = "Must contain 6 or more characters"
+                        document.getElementById('name2').style.borderColor = "red";
+                        document.forms["valform"]["name2"].focus();
+                        rt = false;
+                    } else if (/[^a-z]/gi.test(name2)) {
+                        document.getElementById("errname2").innerHTML = "alphabets only!!"
+                        document.getElementById('name2').style.borderColor = "red";
+                        document.forms["valform"]["name2"].focus();
+                        rt = false;
+                    } else {
+                        document.getElementById("errname2").innerHTML = ""
+                        document.getElementById('name2').style.borderColor = "grey";
+                    }
+                //     ////////////////////
+
+
+
+                //     ///////////////first_name validation/////////////
+                    name1 = document.forms["valform"]["name1"].value;
+
+                    if (name1 == "") {
+                        document.getElementById("errname1").innerHTML = "Enter your first name"
+                        document.getElementById('name1').style.borderColor = "red";
+                        document.forms["valform"]["name1"].focus();
+                        rt = false;
+                    } else if (name1.length <= 5) {
+                        document.getElementById("errname1").innerHTML = "Must contain 6 or more characters"
+                        document.getElementById('name1').style.borderColor = "red";
+                        document.forms["valform"]["name1"].focus();
+                        rt = false;
+                    } else if (/[^a-z]/gi.test(name1)) {
+                        document.getElementById("errname1").innerHTML = "alphabets only!!"
+                        document.getElementById('name1').style.borderColor = "red";
+                        document.forms["valform"]["name1"].focus();
+                        rt = false;
+                    } else {
+                        document.getElementById("errname1").innerHTML = ""
+                        document.getElementById('name1').style.borderColor = "grey";
+                    }
+                //     ////////////////////
+
+
+
+                    return rt
+
+                }
+            </script>
+            <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+            <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script> -->
+</body>
+
+</html>

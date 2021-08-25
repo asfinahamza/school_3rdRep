@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+</head>
+<body onload="displayfn()">
+    <table id="table" border="=1">
+        <tr>
+            <th>ID</th>
+            <th>name</th>
+            <th>email</th>
+            <th>place</th>
+            <th>action</th>
+        </tr>
+        
+    </table>
+
+    <script>
+        $.ajaxSetup({
+                headers : { "X-CSRFToken" : '{{csrf_token}}' }
+            });
+        function displayfn(){
+            $.ajax({
+                url:'ajaxdata',
+                type:'GET',
+                success:function(response){
+                    userdata=response.data
+                    // console.log(userdata)
+                    $('.tr').remove();
+                    for(i=0;i<=userdata.length;i++){
+                        $('#table').append("<tr class='tr'><td>"+userdata[i].id+"</td><td>"+userdata[i].name+"</td><td>"+userdata[i].place+"</td><td>"+userdata[i].email+"</td><td><button onclick='delete_aj("+userdata[i].id+")'>delete</button></td><td><button onclick='update_aj("+userdata[i].id+")'>update</button></td></tr>")
+                    }
+                }
+            })
+        }
+
+        function delete_aj(x){
+            
+            $.ajax({
+                url:'deleteAjData',
+                type:'POST',
+                data:{
+                    id:x
+                },
+                success:function(response){
+                    alert(response.message)
+                    displayfn()
+                }
+            })
+        }
+        function update_aj(y){
+            $.ajax({
+                url:'updateAjData',
+                type:'POST',
+                data:{
+                    id:y
+                },
+                success:function(response){
+                    u_data=response.data
+                    console.log(response.data)
+                }
+            })
+        }
+    </script>
+</body>
+</html>

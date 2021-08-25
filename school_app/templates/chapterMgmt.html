@@ -1,0 +1,177 @@
+{% extends 'teacherDB.html' %}
+{% block trdash1 %}
+{% load static %}
+<ul class="nav mb-3" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Add New Chapter</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Update</a>
+  </li>
+  <!-- <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
+  </li> -->
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+    <form action="" method="POST">
+      <div class="form-group">
+        <label for="">Select Class</label>
+        <select class="form-control" id="">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="">Select Subjects</label>
+        <select multiple class="form-control" id="exampleFormControlSelect2">
+          <option>malayalam</option>
+          <option>English</option>
+          <option>Hindi</option>
+          <option>Mathematics</option>
+          <option>science</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="">Chapter:</label>
+        <input type="text" class="form-control" id="" name="">
+      </div>
+      <button type="button" class="btn btn-primary">Add Chapter</button>
+    </form>
+  </div>
+
+
+  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="verifynew-tab" data-toggle="tab" href="#to_verify" role="tab" aria-controls="to_verify" aria-selected="true">Add new file</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="assignClass-tab" data-toggle="tab" href="#assignClass" role="tab" aria-controls="assignClass" aria-selected="false">View and Edit</a>
+      </li>
+      <!-- <li class="nav-item" role="presentation">
+        <a class="nav-link" id="assignSubject-tab" data-toggle="tab" href="#assignSubject" role="tab" aria-controls="assignSubject" aria-selected="false">Update</a>
+      </li> -->
+  </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="to_verify" role="tabpanel" aria-labelledby="verifynew-tab">
+          <div class="mt-5">
+  
+              <form action="" method="POST">
+              
+                            
+              
+                  
+                  <div class="form-group">
+                    <label for="">Select Class</label>
+                    <select class="form-control" id="">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Select Subjects</label>
+                    <select multiple class="form-control" id="exampleFormControlSelect2">
+                      <option>malayalam</option>
+                      <option>English</option>
+                      <option>Hindi</option>
+                      <option>Mathematics</option>
+                      <option>science</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Select Chapter</label>
+                    <select class="form-control" id="">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="">Add content</label>
+                      <div class="custom-file mb-3">
+                          <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                          <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                        </div>
+                    </div>
+  
+  
+                  
+                  <button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>
+                
+          </form>
+          </div>
+  
+      </div>
+      <div class="mt-5 tab-pane fade" id="assignClass" role="tabpanel" aria-labelledby="assignClass-tab">
+        <form action="" method="POST">
+              
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label for="">Select Class</label>
+                <select class="form-control" id="">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label for="">Select Subjects</label>
+                <select class="form-control" id="">
+                  <option>malayalam</option>
+                  <option>English</option>
+                  <option>Hindi</option>
+                  <option>Mathematics</option>
+                  <option>science</option>
+                </select>
+              </div>
+  
+            </div>
+            <div class="col-lg-4">
+              <button type="button" class="vw-chapt-btn btn btn-primary btn-block">View Chapters</button>
+            </div>
+          </div>                  
+          
+  
+          
+         
+          
+          
+          
+  
+  
+  
+        
+  </form>
+       
+  
+      </div>
+      <div class="tab-pane fade" id="assignSubject" role="tabpanel" aria-labelledby="assignSubject-tab">update</div>
+    </div>
+  
+  
+
+
+  </div>
+  <!-- <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div> -->
+</div>
+   
+{% endblock %}
+
+
+
+

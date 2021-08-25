@@ -1,0 +1,54 @@
+{% extends 'index.html' %}
+{% block dash1 %}
+{% load static %}
+<div class="card card-profile">
+    <table class="table-profile mt-3 mb-5" align="center">
+        <tr>
+            <td align="center"><h2>Profile</h2></td>
+        </tr>
+        <tr>
+            <td><img class="mt-4 mb-5" src="/school_app/media/{{sudent_data.profile_pic}}" alt="" height="150" width="150"></td>
+        </tr>
+       
+        <tr>
+            
+            <td>first name:</td>
+            <td>{{sudent_data.first_name}}</td>
+        </tr>
+        <tr>
+            <td>Last name:</td>
+            <td>{{sudent_data.last_name}}</td>
+        </tr>
+        <tr>
+            <td>DOB</td>
+            <td>{{sudent_data.dob}}</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td>{{sudent_data.email}}</td>
+        </tr>
+        <tr>
+            <td>contact</td>
+            <td>{{sudent_data.contact}}</td>
+        </tr>
+        <tr>
+            <td>address</td>
+            <td>{{sudent_data.address}}</td>
+        </tr>
+        
+        
+        
+    </table>
+    <div align="center" class="mb-3">
+        <a href="/verifyStudent/{{sudent_data.registration_id}}" class="btn btn-primary  btn-profile">Verify</a>
+        <a href="/declineStudent/{{sudent_data.registration_id}}" class=" btn btn-danger mx-2  btn-profile">Decline</a>
+    </div>
+  </div>
+
+
+   
+{% endblock %}
+
+
+
+

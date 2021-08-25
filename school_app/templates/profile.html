@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table align="center">
+        <tr>
+            <td align="center"><h2>Profile</h2></td>
+        </tr>
+        <tr>
+            <td>first name:</td>
+            <td>{{userdata.first_name}}</td>
+        </tr>
+        <tr>
+            <td>Last name:</td>
+            <td>{{userdata.last_name}}</td>
+        </tr>
+        <tr>
+            <td>Place</td>
+            <td>{{userdata.place}}</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td>{{userdata.email}}</td>
+        </tr>
+        <tr>
+            <td>contact</td>
+            <td>{{userdata.contact}}</td>
+        </tr>
+        <tr>
+            <td><a class="btn btn-primary" onclick="return confirm('Press ok to conform')" href="/logout">logout</a></td>
+        </tr>
+    </table>
+    
+</body>
+</html>

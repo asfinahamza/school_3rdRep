@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+</head>
+<body>
+    <form action="register" method="POST">
+        {% csrf_token %}
+        <input type="text" name="name1" placeholder="first name"><br>
+        <input type="text" name="name2" placeholder="last name"><br>
+        <input type="text" name="place" placeholder="place"><br>
+        <input type="email" name="email" id="email" placeholder="email id" onkeyup="checkEmail()"><br>
+        <input type="text" name="contact" placeholder="contact"><br>
+        <input type="date" name="dob" placeholder="date of birth"><br>
+        <input type="file" name="pic" placeholder="Profile picture"><br>
+
+        <button>submit</button>
+    </form>
+
+    <script>
+        $.ajaxSetup({
+            headers : { "X-CSRFToken" : '{{csrf_token}}' }
+        });
+        function checkEmail(){
+            // alert('hellooo')
+            $.ajax({
+                url:'check_email',
+                type:'POST',
+                data:{
+                    email : $('#email').val()
+                },
+                success : function(response){
+                    alert(response.message)
+                }
+            })
+        }
+
+    </script>
+</body>
+</html>

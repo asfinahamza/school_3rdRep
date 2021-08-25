@@ -1,0 +1,92 @@
+{% extends 'index.html' %}
+{% block dash1 %}
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="verifynew-tab" data-toggle="tab" href="#to_verify" role="tab" aria-controls="to_verify" aria-selected="true">verify new</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="assignClass-tab" data-toggle="tab" href="#assignClass" role="tab" aria-controls="assignClass" aria-selected="false">Assign classes & subjects</a>
+    </li>
+    <!-- <li class="nav-item" role="presentation">
+      <a class="nav-link" id="assignSubject-tab" data-toggle="tab" href="#assignSubject" role="tab" aria-controls="assignSubject" aria-selected="false">Assign subjects</a>
+    </li> -->
+</ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="to_verify" role="tabpanel" aria-labelledby="verifynew-tab">
+        <div class="mt-5">
+
+            <table class="table" width="100%" align="center">
+                <tr class="table-secondary">
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>profil pic</th>
+                    <th>Action</th>
+                </tr>
+                {% for x in key %}
+                <tr>
+                    <td>{{x.first_name}} {{x.last_name}}</td>
+                    <td>{{x.contact}}</td>
+                    <td><img src="/school_app/media/{{x.profile_pic}}" alt="" height="100" width="100"></td>
+                    <td>
+                      <a href="/staffDetails/{{x.registration_id}}" style="color: rgb(70, 28, 148);">View</a></td>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+    <div class="mt-5 tab-pane fade" id="assignClass" role="tabpanel" aria-labelledby="assignClass-tab">
+        
+        <form action="" method="POST">
+            {% csrf_token %}
+                          
+            
+                
+                <div class="form-group">
+                  <label for="">Select Class</label>
+                  <select class="form-control" id="">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="">Select Subjects</label>
+                  <select multiple class="form-control" id="exampleFormControlSelect2">
+                    <option>malayalam</option>
+                    <option>English</option>
+                    <option>Hindi</option>
+                    <option>Mathematics</option>
+                    <option>science</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="">Teachers</label>
+                  <select class="form-control" id="">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>
+              
+        </form>
+
+    </div>
+    <!-- <div class="tab-pane fade" id="assignSubject" role="tabpanel" aria-labelledby="assignSubject-tab">assignSubject</div> -->
+  </div>
+
+
+   
+{% endblock %}
+
+
+
+

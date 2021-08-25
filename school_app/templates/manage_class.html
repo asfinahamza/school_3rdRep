@@ -1,0 +1,353 @@
+{% extends 'index.html' %}
+{% block dash1 %}
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="addclass-tab" data-toggle="tab" href="#addclass" role="tab" aria-controls="addclass" aria-selected="true">Add New Class</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="addsubject-tab" data-toggle="tab" href="#addsubject" role="tab" aria-controls="addsubject" aria-selected="false">Add subjects</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="addclassTr-tab" data-toggle="tab" href="#addclassTr" role="tab" aria-controls="addclassTr" aria-selected="false">Assign class teacher</a>
+  </li>
+  
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="viewClass-tab" data-toggle="tab" href="#viewClass" role="tab" aria-controls="viewClass" aria-selected="false">View Class</a>
+  </li>
+  <!-- <li class="nav-item" role="presentation">
+    <a class="nav-link" id="updateClass-tab" data-toggle="tab" href="#updateClass" role="tab" aria-controls="updateClass" aria-selected="false">update Class</a>
+  </li> -->
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="addclass" role="tabpanel" aria-labelledby="addclass-tab">
+
+
+    <div class="card mt-5">
+      
+      <div class="card-body">
+          <form action="class" method="POST">
+            {% csrf_token %}
+              <div class="form-group">
+                <label for="">Class:</label>
+                
+                <select name="slctClss" class="form-control" id="" required>
+                  <option value="">Please select class</option>
+                  {% for x in key2 %}
+                  <option value="{{x.classes}}">{{x.classes}}</option>
+                  {% endfor %}
+                </select>
+                
+              </div>
+             
+              <button type="submit" class="btn btn-primary">Add</button>
+
+              {{message}}
+            </form>
+          </div>
+  
+
+
+        </div>
+    
+
+            <!-- display added classes -->
+            <div class="mt-5">
+              <table class="table">
+                <thead>
+                  <tr class="table-secondary">
+                    <th scope="col">#</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Added on</th>
+                    <th scope="col">Action</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for x in key4 %}
+                  <tr>
+                    <th scope="row">{{x.id}}</th>
+                    <td>{{x.classes}}</td>
+                    <td></td>
+                    <td><a href=" /deleteClass/{{x.id}}" onclick="return confirm('Press ok to conform')" style="color: red;"><i class="fa fa-trash"></i></a></td>
+                  </tr>
+                  {% endfor %}
+                  
+                  
+                </tbody>
+              </table>
+            </div>
+
+      
+  </div>
+
+
+
+  <div class="mt-5 tab-pane fade" id="addsubject" role="tabpanel" aria-labelledby="addsubject-tab">
+
+    <div class="card mt-5">
+      
+      <div class="card-body">
+         
+            
+            <div class="form-group">
+              <label for="">Select Class:</label>
+              <select name="slct_added_class" class="form-control" id="slct_added_class">
+
+                <option value="">Please select class</option>
+
+                {% for x in key4 %}
+                <option value="{{x.id}}">{{x.classes}}</option>
+                {% endfor %}
+
+              </select>{{message}}
+
+            </div>
+              <div class="form-group">
+                <label for="">Subject:</label>
+                <select name="slctSubject" class="form-control" id="slctSubject">
+                  <option value="">Please select subject</option>
+                  {% for x in key3 %}
+                  <option value="{{x.subject}}">{{x.subject}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+             
+              <button type="submit" class="btn btn-primary" onclick="setsubject()">Add</button>
+
+              {{subjecterror}}
+           
+      </div>
+    </div>
+    
+    <script>
+      $.ajaxSetup({
+        headers : { "X-CSRFToken" : '{{csrf_token}}' }
+      });
+      function setsubject(){
+          
+          
+            $.ajax({
+                    url:'addsubject',
+                    type:'POST',
+                    data:{
+                        class:$('#slct_added_class').val(),
+                        subject:$('#slctSubject').val(),
+                    },
+                    success:function(response){
+                        alert(response.message)
+                    }
+                })
+      }
+    </script>
+
+     
+     <div class="mt-5">
+      <table class="table">
+        <thead>
+          <tr class="table-secondary">
+            <th scope="col">#</th>
+            <th scope="col">Class</th>
+            <th scope="col">Subjects</th>
+            <th>Action</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for x in key6 %}
+          <tr>
+            <th scope="row">{{x.id}}</th>
+            <td>{{x.classes.classes }}</td>
+            <td>{{x.subject}}</td>
+            <td><a href="/deleteSubject/{{x.id}}" onclick="return confirm('Press ok to conform')" style="color: red;"><i class="fa fa-trash"></i></a></td>
+            
+          </tr>
+          {% endfor %}
+          
+          
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+
+
+  <div class="mt-5 tab-pane fade" id="addclassTr" role="tabpanel" aria-labelledby="addclassTr-tab">
+
+    <div class="card mt-5">
+      
+      <div class="card-body">
+          <form action="AssignClassTeacher" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="">Select Class:</label>
+              <select name="class-clsteacher" class="form-control" id="">
+                <option value="">Please select class</option>
+                {% for x in key4 %}
+                <option value="{{x.id}}">{{x.classes}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="">Select Classteacher:</label>
+              <select name="tr_name" class="form-control" id="">
+                <option value="">Please select class teacher</option>
+                {% for x in teacher %}
+                <option value="{{x.registration_id}}">{{x.first_name}} {{x.last_name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+             
+              <button type="submit" class="btn btn-primary">Assign</button>
+
+              {{message}}
+            </form>
+
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <table class="table">
+        <thead>
+          <tr class="table-secondary">
+            <th scope="col">#</th>
+            <th scope="col">Class</th>
+            <th scope="col">Classteacher</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for x in key7 %}
+          <tr>
+            <th scope="row">{{x.id}}</th>
+            <td>{{x.classes.classes }}</td>
+            <td>{{x.teacher.first_name}} {{x.teacher.last_name}}</td>
+            <td><a href="/deleteClassTeacher/{{x.id}}" onclick="return confirm('Press ok to conform')" style="color: red;"><i class="fa fa-trash"></i></a></td>
+        </tr>
+          </tr>
+          {% endfor %}
+          
+          
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="mt-5 tab-pane fade" id="viewClass" role="tabpanel" aria-labelledby="viewClass-tab">
+
+    <div class="card-body">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group row">
+            <div class="col-lg-6">
+              <input type="text" name="" placeholder="Enter class/name/id" class="form-control">
+            </div>
+            <div class="col-lg-6">
+              <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+         
+          
+
+          {{message}}
+        </form>
+
+  </div>
+
+    <table class="table" width="100%" align="center">
+      <tr class="table-secondary">
+          <th rowspan="2">ID</th>
+          <th rowspan="2">Class Name</th>
+          <th rowspan="2">Class Teacher</th>
+          <th colspan="4">Subjects</th>
+          <th colspan="2" rowspan="2">Action</th>
+      </tr>
+      
+      <tr class="table-secondary">
+          <th>sub 1</th>
+          <th>sub 2</th>
+          <th>sub 3</th>
+          <th>sub 4</th>
+      </tr>
+      {% for x in key8 %}
+     
+      <tr>
+        <th scope="row">{{x.id}}</th>
+        <td>{{x.classes.classes}}</td>
+        <td>{{x.teacher.first_name}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td align="center"><a href=" /delete/{{x.id}}" onclick="return confirm('Press ok to conform')" style="color: red;"><i class="fa fa-trash"></i></a></td>
+        <td align="center"><a href=" /update/{{x.id}}" style="color: rgb(70, 28, 148);"><i class="fa fa-pencil"></i></a></td>
+      </tr>
+      {% endfor %}
+      
+  </table>
+
+  </div>
+
+  <!-- <div class="mt-5 tab-pane fade" id="updateClass" role="tabpanel" aria-labelledby="updateClass-tab">
+      <div class="mt-5">
+        <form>
+          <div class="form-group">
+            <label for="">Class Name</label>
+            <input type="text" class="form-control" id="" placeholder="">
+          </div>
+          
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Class Teacher</label>
+            <select class="form-control" id="exampleFormControlSelect1">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlSelect2">Edit Subjects</label>
+            <div class="form-group">
+              <div class="row">
+              <div class="col-lg-8">
+                <input type="text" name="" class="form-control">
+              </div>
+              <div class="col-lg-4">
+                <button type="button" class="btn btn-secondary">Add new</button>
+              </div>
+              </div>
+            </div>
+            <label for="">Previous Subjects</label>
+            <select multiple class="form-control" id="exampleFormControlSelect2">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Example textarea</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+          <button class="btn btn-danger">Update</button>
+        </form>
+      </div>
+
+  </div>
+ -->
+
+
+ 
+
+
+  
+</div>
+
+  
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'studentDB.html' %}
+{% block stdash1 %}
+{% load static %}
+<div>
+  
+  <h1 align="center">Instructions</h1>
+  <br><br><br>
+  <ul class="a1">
+    <li>There will be 4 options for each questions</li>
+    <li>click on one of the option button to select your answer</li>
+    <li>Alloted time for the examination is 30 minutes.</li>
+    <li>To change the answer simply click on the desired option.</li>
+    <li>cick on NEXT go to the next question. </li>
+    <li>you can also change the answers of previous questions by selecting question number from the side list. </li>
+    <li>Click on SAVE&PROCEED to finish the exam.</li><br><br><br>
+    <input type="checkbox">I have read and understood all the instructions
+    <br><br>
+    
+    <div class="mt-5">
+      <a href="question" class="btn btn-primary btn-danger btn-lg">Start Exam</a>
+    </div>
+
+  </ul>
+
+</div>
+   
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'teacherDB.html' %}
+{% block trdash1 %}
+{% load static %}
+
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="verifynew-tab" data-toggle="tab" href="#to_verify" role="tab" aria-controls="to_verify" aria-selected="true">View</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="assignClass-tab" data-toggle="tab" href="#assignClass" role="tab" aria-controls="assignClass" aria-selected="false">Update</a>
+      </li>
+      <!-- <li class="nav-item" role="presentation">
+        <a class="nav-link" id="assignSubject-tab" data-toggle="tab" href="#assignSubject" role="tab" aria-controls="assignSubject" aria-selected="false">Update</a>
+      </li> -->
+  </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="to_verify" role="tabpanel" aria-labelledby="verifynew-tab">
+         
+            <div class="mt-5">
+                <table border="1" width="100%" align="center">
+                    <tr>
+                        <th rowspan="2">Class</th>
+                        <th colspan="4">subjects</th>
+                        
+                    </tr>
+                    
+                    <tr>
+                        
+                        <th>subj-1</th>
+                        <th>subj-2</th>
+                        <th>subj-3</th>
+                        <th>subj-4</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>   
+            </div>
+              
+          
+  
+      </div>
+      <div class="mt-5 tab-pane fade" id="assignClass" role="tabpanel" aria-labelledby="assignClass-tab">
+        <form action="" method="POST">
+              
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label for="">Select Class</label>
+                <select class="form-control" id="">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label for="">Select Subjects</label>
+                <select class="form-control" id="">
+                  <option></option>
+                  <option></option>
+                  <option></option>
+                  <option></option>
+                  <option></option>
+                </select>
+              </div>
+  
+            </div>
+            <div class="col-lg-4">
+              <button type="button" class="vw-chapt-btn btn btn-primary btn-block">Search</button>
+            </div>
+          </div>                  
+          
+  
+          
+         
+          
+          
+          
+  
+  
+  
+        
+  </form>
+       
+  
+      </div>
+      <!-- <div class="tab-pane fade" id="assignSubject" role="tabpanel" aria-labelledby="assignSubject-tab">update</div> -->
+    </div>
+  
+  
+
+
+  </div>
+ 
+   
+{% endblock %}
+
+
+
+

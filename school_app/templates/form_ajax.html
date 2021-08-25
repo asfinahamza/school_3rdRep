@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+</head>
+<body>
+    
+        
+        <input type="text" name="name1" id="name1" placeholder="name"><br>
+        <input type="text" name="place" id="place1" placeholder="place"><br>
+        <input type="email" name="email" id="email1" placeholder="email id"><br>
+        
+
+        <button onclick="valfun()">submit</button>
+    
+        <script>
+            $.ajaxSetup({
+                headers : { "X-CSRFToken" : '{{csrf_token}}' }
+            });
+            function valfun(){
+                $.ajax({
+                    url:'testAjax',
+                    type:'POST',
+                    data:{
+                        name:$('#name1').val(),
+                        place:$('#place1').val(),
+                        email:$('#email1').val()
+                    },
+                    success:function(response){
+                        alert(response.message)
+                    }
+                })
+            }
+        </script>
+</body>
+</html>

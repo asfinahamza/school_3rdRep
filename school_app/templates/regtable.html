@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Document</title>
+
+</head>
+<body>
+    <table border="1" width="50%" align="center">
+        <tr>
+            <th>ID</th>
+            <th>first name</th>
+            <th>second name</th>
+            <th>place</th>
+            <th>email</th>
+            <th>contact no</th>
+            <th>DOB</th>
+            <th colspan="2">Action</th>
+        </tr>
+        {% for x in key %}
+        <tr>
+            <td>{{x.id}}</td>
+            <td>{{x.first_name}}</td>
+            <td>{{x.last_name}}</td>
+            <td>{{x.place}}</td>
+            <td>{{x.email}}</td>
+            <td>{{x.contact}}</td>
+            <td>{{x.dob}}</td>
+            <td align="center"><a href=" /delete/{{x.id}}" onclick="return confirm('Press ok to conform')" style="color: red;"><i class="fa fa-trash"></i></a></td>
+            <td align="center"><a href=" /update/{{x.id}}" style="color: rgb(70, 28, 148);"><i class="fa fa-pencil"></i></a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
