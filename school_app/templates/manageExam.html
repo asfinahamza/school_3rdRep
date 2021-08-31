@@ -4,10 +4,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <ul class="nav mb-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="chapter-tab" data-toggle="pill" href="#chapter" role="tab" aria-controls="chapter" aria-selected="true">Add New Chapter</a>
+    <a class="nav-link active" id="chapter-tab" data-toggle="pill" href="#createExm" role="tab" aria-controls="createExm" aria-selected="true">Create Exam</a>
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">View</a>
+    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">view Result</a>
   </li>
   <!-- <li class="nav-item" role="presentation">
     <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
@@ -30,9 +30,9 @@
         <label for="">Select subject:</label>
         <select name="subject_name" class="form-control" id="subject_name">
           <option value="">Please select subject</option>
-          <!-- {% for x in subj %}
+          {% for x in subj %}
           <option value="{{x.id}}">{{x.subject}}</option>
-          {% endfor %} -->
+          {% endfor %}
         </select>
       </div>
       <div class="form-group">
@@ -66,11 +66,6 @@
           success:function(response){
                     userdata=response.data
                     // console.log(userdata)
-                    $('.subj').remove();
-                    for(i=0;i<=userdata.length-1;i++){
-                        $('#subject_name').append("<option value='"+userdata[i].id+"' class='subj'>"+userdata[i].subject+"</option>")
-                    }
-
                     
                 }
       })

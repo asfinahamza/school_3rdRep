@@ -58,7 +58,24 @@ def regtab(request):
     content=Registration.objects.all()
     return render(request,'regtable.html',{'key':content})
 
+def adminLoginFun(request):
+    if(request.method == 'POST'):
+        emailID=request.POST['email1']
+        password=request.POST['password1']
+        try:
+            user=AdminLoginData.objects.get(email=emailID)
+            if(user.email==emailID and user.password==password):
+                request.session['admin_id']=user.id
+                return redirect('class')
+            else:
+                return render(request,'adminLogin.html',{'message':'Login failed'})
+        except AdminLoginData.DoesNotExist:
+            return render(request,'adminLogin.html',{'message':'Login failed'})
+    return render(request,'adminLogin.html')
 
+def adminLogoutFun(request):
+    del request.session['admin_id']
+    return redirect('adminLogin')
 
 
 def studentReg(request):
@@ -193,15 +210,26 @@ def studentManage(request):
 
 
 
-def topicMg(request):
+def chapterMnFun(request):
+    if(request.method == 'POST'):
+        class_id=request.POST['class_name']
+        subject_id=request.POST['subject_name']
+        chapter_name=request.POST['chapter']
+        chapter_details=chapter(chapter=chapter_name,classes_id=class_id,subject_id=subject_id)
+        chapter_details.save()
+        return redirect('chapterMN')
     user_id=request.session['registration_id']
     data=Staff.objects.get(registration_id=user_id)
-    return render(request,'chapterMgmt.html',{'userdata':data})
+    class_data=AddedClasses.objects.all()
+    subj_details=AddedSubjects.objects.all()
+    return render(request,'chapterMgmt.html',{'userdata':data,'classdetails':class_data,'subj':subj_details})
 
-
-def subjMg(request):
-    return render(request,'subjectMgmt.html')
-
+def subjectOfClassFun(request):
+    class_id=request.POST['classID']
+    subject_data=AddedSubjects.objects.filter(classes_id=class_id)
+    subject_details=[{'id':x.id,'subject':x.subject}for x in subject_data]
+    return JsonResponse({'data':subject_details})
+     
 
 def delData(request,id):
     Registration.objects.get(id=id).delete()
@@ -335,16 +363,15 @@ def logout_fn(request):
     del request.session['user_id']
     return redirect('login')
 
+def subjMg(request):
+    classData=AddedClasses.objects.all()
+    subj=Subjects.objects.all() 
+    teachers=Staff.objects.all() 
+    subj_details=AddedSubjects.objects.select_related('classes')
+    return render(request,'subjectMgmt.html',{'key4':classData,'key3':subj,'teacher':teachers,'key6':subj_details})
+
+
 def classfn(request):       
-    if(request.method=='POST'):
-        clas_name=request.POST['slctClss'] 
-        clss=AddedClasses.objects.get(classes=clas_name)
-        if(clss.classes==clas_name):
-            content=AddedClasses.objects.all()
-            return render(request,'manage_class.html',{'message':'Class already exists!!','key4':content})
-        else:
-            addclass=AddedClasses(classes=clas_name)   
-            addclass.save()
     content=AddedClasses.objects.all()                            
     cl=Classes.objects.all()
     subj=Subjects.objects.all()
@@ -353,6 +380,8 @@ def classfn(request):
     subj_details=AddedSubjects.objects.select_related('classes')
     class_details=ClassTeacher.objects.select_related('teacher','classes')
     return render(request,'manage_class.html',{'key2':cl,'key3':subj,'key4':content,'teacher':teachers,'key6':subj_details,'key7':clTeacher,'key8':class_details})
+
+
 
 def deleteClassFn(request,id):
     AddedClasses.objects.get(id=id).delete()
@@ -366,20 +395,33 @@ def deleteClassTeacherFn(request,id):
     ClassTeacher.objects.get(id=id).delete()
     return redirect('class')
 
+def addClassFn(request):
+    class_name=request.POST['classes']
+    try:
+        exixting_cls=AddedClasses.objects.get(classes=class_name)
+        return JsonResponse({'messages':'Class already exists'})
+    except AddedClasses.DoesNotExist:
+        addCls=AddedClasses(classes=class_name)
+        addCls.save()
+        return JsonResponse({'messages':'class has been created successfully'})
+    
 def addsubjectfn(request):
     subjects=request.POST['subject']
     classID=request.POST['class']
-    addsubj=AddedSubjects(subject=subjects, classes_id=classID)
+    teacherID=request.POST['staff']
+    addsubj=AddedSubjects(subject=subjects, classes_id=classID,teacher_id=teacherID)
     addsubj.save()
     return JsonResponse({'message':'data inserted successfully'})
 
 def AssignClassTeacherfn(request):
-    if(request.method=='POST'):
-        class_id=request.POST['class-clsteacher']
-        teachers_id=request.POST['tr_name']
+        class_id=request.POST['class_name']
+        teachers_id=request.POST['class_teacher']
         class_teacher=ClassTeacher(classes_id=class_id,teacher_id=teachers_id)
         class_teacher.save()
-        return redirect('class')
+        return JsonResponse({'result':'data inserted successfully'})
+
+def addTopicFun(request):
+    return render(request,'topicMN.html')
 
 def fileupload(request):
     if(request.method=='POST'):

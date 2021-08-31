@@ -8,6 +8,9 @@ class Registration(models.Model):
     contact=models.BigIntegerField()
     dob=models.DateField()
 
+class AdminLoginData(models.Model):
+    email=models.CharField(max_length=50)
+    password=models.CharField(max_length=50)
 
 class StaffRegistration(models.Model):
     registration_id=models.AutoField(primary_key=True)
@@ -105,12 +108,16 @@ class Subjects(models.Model):
 class AddedSubjects(models.Model):
     subject=models.CharField(max_length=50)
     classes=models.ForeignKey(AddedClasses,on_delete=models.CASCADE)
+    teacher=models.ForeignKey(Staff,on_delete=models.CASCADE)
 
 class ClassTeacher(models.Model):
     classes=models.ForeignKey(AddedClasses,on_delete=models.CASCADE)
     teacher=models.ForeignKey(Staff,on_delete=models.CASCADE)
 
-    
+class chapter(models.Model):
+    chapter=models.CharField(max_length=50,default=None)
+    classes=models.ForeignKey(AddedClasses,on_delete=models.CASCADE)
+    subject=models.ForeignKey(AddedSubjects,on_delete=models.CASCADE)    
 
 class FileUpload(models.Model):
     name=models.CharField(max_length=50)

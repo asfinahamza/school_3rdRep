@@ -1,0 +1,66 @@
+{% extends 'index.html' %}
+{% block dash1 %}
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+  
+
+    <!-- <div class="card mt-5">
+      
+      <div class="card-body">
+          
+              <form action="addClass" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="">Class:</label>
+                    
+                    <select name="slctClss" class="form-control" id="slctClss">
+                      <option value="">Please select class</option>
+                      {% for x in key2 %}
+                      <option value="{{x.classes}}">{{x.classes}}</option>
+                      {% endfor %}
+                    </select>
+                    
+                  </div>
+                 
+                  <button type="submit" class="btn btn-primary" onclick="setClass()">Add</button>
+    
+                  {{message}}
+              </form>
+           
+          </div>
+   -->
+
+
+        </div>
+    
+
+   
+
+ 
+<!-- <script>
+  $.ajaxSetup({
+    headers : { "X-CSRFToken" : '{{csrf_token}}' }
+  });
+  
+  
+  function setClass(){
+
+    $.ajax({
+            url:'addClass',
+            type:'POST',
+            data:{
+                classes:$('#slctClss').val(),
+            },
+            success:function(response){
+                alert(response.messages)
+               
+            }
+
+      })
+  }
+</script> -->
+
+
+  
+{% endblock %}

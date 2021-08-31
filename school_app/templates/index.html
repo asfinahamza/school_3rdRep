@@ -22,15 +22,16 @@
       </a>
 
       <div class="ml-auto">
-          <form class="form-inline mr-auto">
-              <div class="row">
-                  <a class="nav-link mr-sm-2" href="profile">
-                      <label class="a2" for="">{{userdata.first_name}}<img src="{% static 'images/profile1.png' %}" alt="" width="40px" height="40px"></label> 
-                  </a>
-              </div>
-              
-          </form>
-      </div>
+        <form class="form-inline mr-auto">
+            <div class="row">
+                <a class="nav-link mr-sm-2" href="studentProfile">
+                    <label class="a2" for="">{{data.first_name}}<img src="{% static 'images/profile1.png' %}" alt="" width="40px" height="40px"></label> 
+                </a>
+                <a href="adminLogout"><Label class="a2 mt-2 my-3">Logout</Label></a>
+            </div>
+            
+        </form>
+    </div>
   </nav>
   </header>
   <div>
@@ -52,6 +53,7 @@
                   <li class="nav list-group-item listm">
                     <a class="list-group-item list-group-item-action listm mt-3" href="/class">Manage Class</a>
                   </li>
+                  
                   <!-- <li class="nav list-group-item listm">
                     <a class="list-group-item list-group-item-action listm" id="b1"  href="#">Update class</a>
                   </li> -->
@@ -63,6 +65,9 @@
                   </li>
                   <li class="nav list-group-item listm">
                     <a class="list-group-item list-group-item-action listm"  href="/managestaff">Manage staff</a>
+                  </li>
+                  <li class="nav list-group-item listm">
+                    <a class="list-group-item list-group-item-action listm"  href="/subjectMN">Manage subjects</a>
                   </li>
                   <li class="nav list-group-item listm">
                     <a class="list-group-item list-group-item-action listm" href="#">messages</a>

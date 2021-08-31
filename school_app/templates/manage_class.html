@@ -6,9 +6,7 @@
   <li class="nav-item" role="presentation">
     <a class="nav-link" id="addclass-tab" data-toggle="tab" href="#addclass" role="tab" aria-controls="addclass" aria-selected="true">Add New Class</a>
   </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="addsubject-tab" data-toggle="tab" href="#addsubject" role="tab" aria-controls="addsubject" aria-selected="false">Add subjects</a>
-  </li>
+  
   <li class="nav-item" role="presentation">
     <a class="nav-link" id="addclassTr-tab" data-toggle="tab" href="#addclassTr" role="tab" aria-controls="addclassTr" aria-selected="false">Assign class teacher</a>
   </li>
@@ -27,12 +25,11 @@
     <div class="card mt-5">
       
       <div class="card-body">
-          <form action="class" method="POST">
-            {% csrf_token %}
+          
               <div class="form-group">
                 <label for="">Class:</label>
                 
-                <select name="slctClss" class="form-control" id="" required>
+                <select name="slctClss" class="form-control" id="slctClss">
                   <option value="">Please select class</option>
                   {% for x in key2 %}
                   <option value="{{x.classes}}">{{x.classes}}</option>
@@ -41,10 +38,10 @@
                 
               </div>
              
-              <button type="submit" class="btn btn-primary">Add</button>
+              <button type="submit" class="btn btn-primary" onclick="setClass()">Add</button>
 
               {{message}}
-            </form>
+           
           </div>
   
 
@@ -84,94 +81,7 @@
 
 
 
-  <div class="mt-5 tab-pane fade" id="addsubject" role="tabpanel" aria-labelledby="addsubject-tab">
-
-    <div class="card mt-5">
-      
-      <div class="card-body">
-         
-            
-            <div class="form-group">
-              <label for="">Select Class:</label>
-              <select name="slct_added_class" class="form-control" id="slct_added_class">
-
-                <option value="">Please select class</option>
-
-                {% for x in key4 %}
-                <option value="{{x.id}}">{{x.classes}}</option>
-                {% endfor %}
-
-              </select>{{message}}
-
-            </div>
-              <div class="form-group">
-                <label for="">Subject:</label>
-                <select name="slctSubject" class="form-control" id="slctSubject">
-                  <option value="">Please select subject</option>
-                  {% for x in key3 %}
-                  <option value="{{x.subject}}">{{x.subject}}</option>
-                  {% endfor %}
-                </select>
-              </div>
-             
-              <button type="submit" class="btn btn-primary" onclick="setsubject()">Add</button>
-
-              {{subjecterror}}
-           
-      </div>
-    </div>
-    
-    <script>
-      $.ajaxSetup({
-        headers : { "X-CSRFToken" : '{{csrf_token}}' }
-      });
-      function setsubject(){
-          
-          
-            $.ajax({
-                    url:'addsubject',
-                    type:'POST',
-                    data:{
-                        class:$('#slct_added_class').val(),
-                        subject:$('#slctSubject').val(),
-                    },
-                    success:function(response){
-                        alert(response.message)
-                    }
-                })
-      }
-    </script>
-
-     
-     <div class="mt-5">
-      <table class="table">
-        <thead>
-          <tr class="table-secondary">
-            <th scope="col">#</th>
-            <th scope="col">Class</th>
-            <th scope="col">Subjects</th>
-            <th>Action</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          {% for x in key6 %}
-          <tr>
-            <th scope="row">{{x.id}}</th>
-            <td>{{x.classes.classes }}</td>
-            <td>{{x.subject}}</td>
-            <td><a href="/deleteSubject/{{x.id}}" onclick="return confirm('Press ok to conform')" style="color: red;"><i class="fa fa-trash"></i></a></td>
-            
-          </tr>
-          {% endfor %}
-          
-          
-        </tbody>
-      </table>
-    </div>
-
-
-  </div>
+  
 
 
   <div class="mt-5 tab-pane fade" id="addclassTr" role="tabpanel" aria-labelledby="addclassTr-tab">
@@ -179,11 +89,10 @@
     <div class="card mt-5">
       
       <div class="card-body">
-          <form action="AssignClassTeacher" method="POST">
-            {% csrf_token %}
+          
             <div class="form-group">
               <label for="">Select Class:</label>
-              <select name="class-clsteacher" class="form-control" id="">
+              <select name="class_cltr" class="form-control" id="class_cltr">
                 <option value="">Please select class</option>
                 {% for x in key4 %}
                 <option value="{{x.id}}">{{x.classes}}</option>
@@ -192,7 +101,7 @@
             </div>
             <div class="form-group">
               <label for="">Select Classteacher:</label>
-              <select name="tr_name" class="form-control" id="">
+              <select name="tr_name" class="form-control" id="tr_name">
                 <option value="">Please select class teacher</option>
                 {% for x in teacher %}
                 <option value="{{x.registration_id}}">{{x.first_name}} {{x.last_name}}</option>
@@ -200,13 +109,14 @@
               </select>
             </div>
              
-              <button type="submit" class="btn btn-primary">Assign</button>
+              <button type="submit" class="btn btn-primary" onclick="setClassTeacher()">Assign</button>
 
               {{message}}
-            </form>
+            
 
       </div>
     </div>
+    
 
     <div class="mt-5">
       <table class="table">
@@ -348,6 +258,43 @@
 
   
 </div>
+<script>
+  $.ajaxSetup({
+    headers : { "X-CSRFToken" : '{{csrf_token}}' }
+  });
+  
+  
+  function setClassTeacher(){
+
+    $.ajax({
+                url:'AssignClassTeacher',
+                type:'POST',
+                data:{
+                    class_name:$('#class_cltr').val(),
+                    class_teacher:$('#tr_name').val(),
+                },
+                success:function(response){
+                    alert(response.result)
+                }
+          })
+  }
+  function setClass(){
+
+    $.ajax({
+            url:'addClass',
+            type:'POST',
+            data:{
+                classes:$('#slctClss').val(),
+            },
+            success:function(response){
+                alert(response.messages)
+               
+            }
+
+      })
+  }
+</script>
+
 
   
 {% endblock %}
