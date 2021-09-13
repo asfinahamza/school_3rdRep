@@ -114,10 +114,18 @@ class ClassTeacher(models.Model):
     classes=models.ForeignKey(AddedClasses,on_delete=models.CASCADE)
     teacher=models.ForeignKey(Staff,on_delete=models.CASCADE)
 
-class chapter(models.Model):
+class Chapter(models.Model):
     chapter=models.CharField(max_length=50,default=None)
     classes=models.ForeignKey(AddedClasses,on_delete=models.CASCADE)
-    subject=models.ForeignKey(AddedSubjects,on_delete=models.CASCADE)    
+    subject=models.ForeignKey(AddedSubjects,on_delete=models.CASCADE)
+
+class Topic(models.Model):
+    chapter=models.ForeignKey(Chapter,on_delete=models.CASCADE)
+    classes=models.ForeignKey(AddedClasses,on_delete=models.CASCADE)
+    subject=models.ForeignKey(AddedSubjects,on_delete=models.CASCADE)
+    topic_name=models.CharField(max_length=50,default=None)
+    topic_file=models.CharField(max_length=50,blank=True)
+   
 
 class FileUpload(models.Model):
     name=models.CharField(max_length=50)

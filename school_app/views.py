@@ -229,7 +229,14 @@ def subjectOfClassFun(request):
     subject_data=AddedSubjects.objects.filter(classes_id=class_id)
     subject_details=[{'id':x.id,'subject':x.subject}for x in subject_data]
     return JsonResponse({'data':subject_details})
-     
+
+def chapterInSubjectFun(request):
+    subj_id=request.POST['subjectID']
+    chapters=Chapter.objects.filter(subject_id=subj_id)
+    chapter_details=[{'id':x.id,'chapter':x.chapter}for x in chapters]
+    return JsonResponse({'ch_data':chapter_details})
+
+
 
 def delData(request,id):
     Registration.objects.get(id=id).delete()
@@ -414,14 +421,32 @@ def addsubjectfn(request):
     return JsonResponse({'message':'data inserted successfully'})
 
 def AssignClassTeacherfn(request):
-        class_id=request.POST['class_name']
-        teachers_id=request.POST['class_teacher']
-        class_teacher=ClassTeacher(classes_id=class_id,teacher_id=teachers_id)
-        class_teacher.save()
-        return JsonResponse({'result':'data inserted successfully'})
+    class_id=request.POST['class_name']
+    teachers_id=request.POST['class_teacher']
+    class_teacher=ClassTeacher(classes_id=class_id,teacher_id=teachers_id)
+    class_teacher.save()
+    return JsonResponse({'result':'data inserted successfully'})
 
 def addTopicFun(request):
-    return render(request,'topicMN.html')
+    if(request.method=='POST'):
+        class_id=request.POST['class_name']
+        subject_id=request.POST['subject_name'] 
+        chapter=request.POST['chapter']
+        title=request.POST['topic_title']
+        files=request.FILES['file_content']
+        filename=str(random())+files.name
+        # print(filename)
+        photo=FileSystemStorage()
+        photo.save(filename,files)
+        topic=Topic(chapter_id=chapter,classes_id=class_id,subject_id=subject_id,topic_name=title,topic_file=filename)
+        topic.save()
+        return render(request,'topicMN.html',{'message':'topic uploaded successfully'})
+    user_id=request.session['registration_id']
+    data=Staff.objects.get(registration_id=user_id)
+    class_data=AddedClasses.objects.all()
+    subj_details=AddedSubjects.objects.all()
+    chapter_details=Chapter.objects.all()
+    return render(request,'topicMN.html',{'userdata':data,'classdetails':class_data,'subj':subj_details})
 
 def fileupload(request):
     if(request.method=='POST'):

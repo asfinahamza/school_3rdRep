@@ -1,6 +1,7 @@
 {% extends 'teacherDB.html' %}
 {% block trdash1 %}
 {% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
       <a class="nav-link active" id="verifynew-tab" data-toggle="tab" href="#to_verify" role="tab" aria-controls="to_verify" aria-selected="true">Add new file</a>
@@ -14,54 +15,51 @@
     <div class="tab-pane fade show active" id="to_verify" role="tabpanel" aria-labelledby="verifynew-tab">
         <div class="mt-5">
 
-            <form action="" method="POST">
+            <form action="addTopic" method="POST" enctype="multipart/form-data">
             
                           
             
-                
+              {% csrf_token %} 
                 <div class="form-group">
                   <label for="">Select Class</label>
-                  <select class="form-control" id="">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                  <select class="form-control" id="class_name" name="class_name" onchange="displaySubjects()">
+                    
+                    <option>Please select class</option>
+                    {% for x in classdetails %}
+                    <option value="{{x.id}}">{{x.classes}}</option>
+                    {% endfor %}
                   </select>
                 </div>
                 <div class="form-group">
                   <label for="">Select Subjects</label>
-                  <select multiple class="form-control" id="exampleFormControlSelect2">
-                    <option>malayalam</option>
-                    <option>English</option>
-                    <option>Hindi</option>
-                    <option>Mathematics</option>
-                    <option>science</option>
+                  <select class="form-control" id="subject_name" name="subject_name" onchange="displayChapter()">
+                    <option>please select subject</option>
+                    
+                    
                   </select>
                 </div>
                 <div class="form-group">
                   <label for="">Select Chapter</label>
-                  <select class="form-control" id="">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                  <select class="form-control" id="chapter" name="chapter">
+                    <option>Please select chapter</option>
+                    
+                   
                   </select>
                 </div>
                 <div class="form-group">
                     <label for="">Add content</label>
+                    <input type="text" placeholder="title of the content" id="topic_title" name="topic_title">
                     <div class="custom-file mb-3">
-                        <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                        <input type="file" class="custom-file-input" name="file_content" id="file_content" required>
                         <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
                       </div>
                   </div>
 
 
                 
-                <button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
               
-        </form>
+        </form>{{message}}
         </div>
 
     </div>
@@ -87,9 +85,7 @@
               <select class="form-control" id="">
                 <option>malayalam</option>
                 <option>English</option>
-                <option>Hindi</option>
-                <option>Mathematics</option>
-                <option>science</option>
+                
               </select>
             </div>
 
@@ -100,16 +96,56 @@
         </div>                  
         
 
-        
-       
-        
-        
-        
-
-
-
       
 </form>
+
+<script>
+  $.ajaxSetup({
+      headers : { "X-CSRFToken" : '{{csrf_token}}' }
+  });
+  function displaySubjects(){
+      // alert('hellooo')
+      $.ajax({
+          url:'subjectOfClass',
+          type:'POST',
+          data:{
+                classID:$('#class_name').val(),
+                },
+          success:function(response){
+                    userdata=response.data
+                    // console.log(userdata)
+                    $('.subj').remove();
+                    for(i=0;i<=userdata.length-1;i++){
+                        $('#subject_name').append("<option value='"+userdata[i].id+"' class='subj'>"+userdata[i].subject+"</option>")
+                    }
+
+                    
+                }
+      })
+  }
+
+  function displayChapter(){
+      // alert('hellooo')
+      $.ajax({
+          url:'chapterInSubject',
+          type:'POST',
+          data:{
+                subjectID:$('#subject_name').val(),
+                },
+          success:function(response){
+                    userdata=response.ch_data
+                    // console.log(userdata)
+                    $('.chptr').remove();
+                    for(i=0;i<=userdata.length-1;i++){
+                        $('#chapter').append("<option value='"+userdata[i].id+"' class='chptr'>"+userdata[i].chapter+"</option>")
+                    }
+
+                    
+                }
+      })
+  }
+
+</script> 
      
 
     </div>

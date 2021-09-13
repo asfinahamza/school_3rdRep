@@ -39,6 +39,7 @@ urlpatterns = [
     path('trdash',views.trdashbdFn,name='trdash' ),
     path('chapterMN',views.chapterMnFun,name='chapterMN' ),
     path('subjectOfClass',views.subjectOfClassFun,name='subjectOfClass' ),
+    path('chapterInSubject',views.chapterInSubjectFun,name='chapterInSubject' ),
     path('subjectMN',views.subjMg,name='subjectMN' ),
     path('chapters',views.chapterFunction,name='chapters' ),
     path('exam',views.examFunction,name='exam' ),
