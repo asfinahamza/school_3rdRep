@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'school_app',
+    'learn_app',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,10 @@ ROOT_URLCONF = 'school_ms.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'school_app/templates'],
+        'DIRS': [BASE_DIR/'school_app/templates',
+        BASE_DIR/'learn_app/templates'
+
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,7 +132,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'school_app/static')
+    os.path.join(BASE_DIR,'school_app/static'),
+    os.path.join(BASE_DIR,'learn_app/static')
 ]
 
 # Default primary key field type
@@ -139,3 +144,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/school_app/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'school_app/media')
+LOGIN_REDIRECT_URL = '/dashboard'
+LOGOUT_REDIRECT_URL = '/accounts/login/'

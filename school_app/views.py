@@ -5,9 +5,12 @@ from random import random
 from django.core.files.storage import FileSystemStorage
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from school_app.serializers import staff_table,teachers_details
+from school_app.serializers import teachers_details
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+# from school_app.forms import CustomeUserCreationForm
 
 
 def welcome(request):
@@ -40,23 +43,10 @@ def postsum(request):
     return render(request,'postsum.html')
 
 
-def regfun(request):
-    if(request.method=='POST'):
-        fname=request.POST['name1']
-        lname=request.POST['name2']
-        place=request.POST['place']
-        email=request.POST['email']
-        contact=request.POST['contact']
-        dob=request.POST['dob']
-        details=Registration(first_name=fname,last_name=lname,place=place,email=email,contact=contact,dob=dob)
-        details.save()
-        return redirect('regDetails')
-    return render(request,'register.html')
 
 
-def regtab(request):
-    content=Registration.objects.all()
-    return render(request,'regtable.html',{'key':content})
+
+
 
 def adminLoginFun(request):
     if(request.method == 'POST'):
@@ -93,7 +83,7 @@ def studentReg(request):
         # print(filename)
         photo=FileSystemStorage()
         photo.save(filename,profile_pic)
-        stdata=StudentRegistration(first_name=st_fname,last_name=st_lname,classes=st_class,contact=st_contact,address=st_address,dob=st_dob,user_name=st_uname,password=st_pswd,profile_pic=filename)
+        stdata=Students(first_name=st_fname,last_name=st_lname,classes=st_class,contact=st_contact,address=st_address,dob=st_dob,user_name=st_uname,password=st_pswd,profile_pic=filename)
         stdata.save()
         return redirect('studentLogin')
 
@@ -107,7 +97,7 @@ def studentLoginFn(request):
         password=request.POST['password1']
         try:
             user=Students.objects.get(user_name=username)
-            if(user.user_name==username and user.password==password):
+            if(user.user_name==username and user.password==password and user.status=='active'):
                 request.session['student_id']=user.registration_id
                 return redirect('chapters')
             else:
@@ -157,7 +147,7 @@ def staffReg(request):
         # print(filename)
         photo=FileSystemStorage()
         photo.save(filename,profile_pic)
-        trdata=StaffRegistration(first_name=tr_fname,last_name=tr_lname,email=tr_email,contact=tr_contact,address=tr_address,dob=tr_dob,user_name=tr_uname,password=tr_pswd,profile_pic=filename)
+        trdata=Staff(first_name=tr_fname,last_name=tr_lname,email=tr_email,contact=tr_contact,address=tr_address,dob=tr_dob,user_name=tr_uname,password=tr_pswd,profile_pic=filename)
         trdata.save()
         return redirect('staffLogin')
 
@@ -169,7 +159,7 @@ def staffLogin(request):
         password=request.POST['password1']
         try:
             user=Staff.objects.get(user_name=username)
-            if(user.user_name==username and user.password==password):
+            if(user.user_name==username and user.password==password and user.status=='active'):
                 request.session['registration_id']=user.registration_id
                 return redirect('chapterMN')
             else:
@@ -199,12 +189,12 @@ def staffProfileFn(request):
 
 
 def staffManage(request):
-    data=StaffRegistration.objects.all()
+    data=Staff.objects.all()
     return render(request,'manage_staff.html',{'key':data})
 
 
 def studentManage(request):
-    data=StudentRegistration.objects.all()
+    data=Students.objects.all()
     return render(request,'manage_student.html',{'key':data})
 
 
@@ -238,28 +228,14 @@ def chapterInSubjectFun(request):
 
 
 
-def delData(request,id):
-    Registration.objects.get(id=id).delete()
-    return redirect('regDetails')
-
-
-def updateData(request,userid):
-    content=Registration.objects.get(id=userid)
-    return render(request,'updateReg.html',{'key1':content})
 
 
 
-def saveUpdateData(request,user_id):
-    if(request.method == 'POST'):
-        n1=request.POST['fname']
-        n2=request.POST['lname']
-        pl=request.POST['place']
-        em=request.POST['email']
-        cnt=request.POST['contact']
-        Registration.objects.filter(id=user_id).update(first_name=n1,last_name=n2,place=pl,email=em,contact=cnt)
-        return redirect('regDetails')
 
 
+def subjectsFun(request):
+
+    return render(request,'subjects.html')
 
 def examFunction(request):
     return render(request,'exam.html')
@@ -272,40 +248,40 @@ def assignmentsFunction(request):
 
 
 def staffDetailsFunction(request,id):
-    content=StaffRegistration.objects.get(registration_id=id)
+    content=Staff.objects.get(registration_id=id)
     return render(request,'staffDetails.html',{'trdata':content})
 
 def verifyStaffFunction(request,id):
-    staff_data=StaffRegistration.objects.get(registration_id=id)
+    Staff.objects.filter(registration_id=id).update(status='active')
     # print(staff_data.registration_id)
-    verified_data=Staff(first_name=staff_data.first_name,last_name=staff_data.last_name,email=staff_data.email,contact=staff_data.contact,address=staff_data.address,dob=staff_data.dob,user_name=staff_data.user_name,password=staff_data.password,profile_pic=staff_data.profile_pic)
-    verified_data.save()
-    StaffRegistration.objects.get(registration_id=id).delete()
+    # verified_data=Staff(first_name=staff_data.first_name,last_name=staff_data.last_name,email=staff_data.email,contact=staff_data.contact,address=staff_data.address,dob=staff_data.dob,user_name=staff_data.user_name,password=staff_data.password,profile_pic=staff_data.profile_pic)
+    # verified_data.save()
+    # StaffRegistration.objects.get(registration_id=id).delete()
     return redirect('managestaff')
 
 def rejectStaffFunction(request,id):
-    staff_data=StaffRegistration.objects.get(registration_id=id)
-    del_data=RegectedStaff(first_name=staff_data.first_name,last_name=staff_data.last_name,email=staff_data.email,contact=staff_data.contact,address=staff_data.address,dob=staff_data.dob,user_name=staff_data.user_name,password=staff_data.password,profile_pic=staff_data.profile_pic)
-    del_data.save()
-    StaffRegistration.objects.get(registration_id=id).delete()
+    Staff.objects.filter(registration_id=id).update(status='inactive')
+    # del_data=RegectedStaff(first_name=staff_data.first_name,last_name=staff_data.last_name,email=staff_data.email,contact=staff_data.contact,address=staff_data.address,dob=staff_data.dob,user_name=staff_data.user_name,password=staff_data.password,profile_pic=staff_data.profile_pic)
+    # del_data.save()
+    # StaffRegistration.objects.get(registration_id=id).delete()
     return redirect('managestaff')
 
 def studentDetailsFunction(request,id):
-    content=StudentRegistration.objects.get(registration_id=id)
+    content=Students.objects.get(registration_id=id)
     return render(request,'studentDetails.html',{'sudent_data':content})
 
 def verifyStudentFunction(request,id):
-    student_data=StudentRegistration.objects.get(registration_id=id)
-    details=Students(first_name=student_data.first_name,last_name=student_data.last_name,classes=student_data.classes,contact=student_data.contact,address=student_data.address,dob=student_data.dob,user_name=student_data.user_name,password=student_data.password,profile_pic=student_data.profile_pic)
-    details.save()
-    StudentRegistration.objects.get(registration_id=id).delete()
+    Students.objects.filter(registration_id=id).update(status='active')
+    # details=Students(first_name=student_data.first_name,last_name=student_data.last_name,classes=student_data.classes,contact=student_data.contact,address=student_data.address,dob=student_data.dob,user_name=student_data.user_name,password=student_data.password,profile_pic=student_data.profile_pic)
+    # details.save()
+    # StudentRegistration.objects.get(registration_id=id).delete()
     return redirect('managestudent')
 
 def declineStudentFunction(request,id):
-    student_data=StudentRegistration.objects.get(registration_id=id)
-    del_data=DeclinedStudentDetails(first_name=student_data.first_name,last_name=student_data.last_name,classes=student_data.classes,contact=student_data.contact,address=student_data.address,dob=student_data.dob,user_name=student_data.user_name,password=student_data.password,profile_pic=student_data.profile_pic)
-    del_data.save()
-    StudentRegistration.objects.get(registration_id=id).delete()
+    Students.objects.filter(registration_id=id).update(status='inactive')
+    # del_data=DeclinedStudentDetails(first_name=student_data.first_name,last_name=student_data.last_name,classes=student_data.classes,contact=student_data.contact,address=student_data.address,dob=student_data.dob,user_name=student_data.user_name,password=student_data.password,profile_pic=student_data.profile_pic)
+    # del_data.save()
+    # StudentRegistration.objects.get(registration_id=id).delete()
     return redirect('managestudent')
 
 
@@ -519,31 +495,31 @@ def updateAPI2fn(request):
     Registration.objects.filter(id=data['id']).update(first_name=data['fname'],last_name=data['lname'],place=data['place'],email=data['mailID'],contact=data['contact'],dob=data['dob'])
     return Response('data updated succuessfully')
 
-@csrf_exempt
-def staff_tablefn(request,id=0):
-    if(request.method=='GET'):
-        staff_data=Registration.objects.all()
-        staff_serializer=staff_table(staff_data,many='True')
-        return JsonResponse(staff_serializer.data,safe=False)
-    elif(request.method=='POST'):
-        user_details=JSONParser().parse(request)
-        dataSerializer=staff_table(data=user_details)
-        if(dataSerializer.is_valid()):
-            dataSerializer.save()
-            return JsonResponse('data inserted successfully',safe=False)
-        return JsonResponse('registration failed',safe=False)
-    elif(request.method=='DELETE'):
-        Registration.objects.get(id=id).delete()
-        return JsonResponse('data deleted successfully',safe=False)
-    elif(request.method=='PUT'):
-        upData=JSONParser().parse(request)
-        data_update=Registration.objects.get(id=upData['id'])
-        ser_data=staff_table(data_update,upData)
-        if(ser_data.is_valid()):
-            ser_data.save()
-            return JsonResponse('data updated successfully',safe=False)
-        else:
-            return JsonResponse('data updation failed',safe=False)
+# @csrf_exempt
+# def staff_tablefn(request,id=0):
+#     if(request.method=='GET'):
+#         staff_data=Registration.objects.all()
+#         staff_serializer=staff_table(staff_data,many='True')
+#         return JsonResponse(staff_serializer.data,safe=False)
+#     elif(request.method=='POST'):
+#         user_details=JSONParser().parse(request)
+#         dataSerializer=staff_table(data=user_details)
+#         if(dataSerializer.is_valid()):
+#             dataSerializer.save()
+#             return JsonResponse('data inserted successfully',safe=False)
+#         return JsonResponse('registration failed',safe=False)
+#     elif(request.method=='DELETE'):
+#         Registration.objects.get(id=id).delete()
+#         return JsonResponse('data deleted successfully',safe=False)
+#     elif(request.method=='PUT'):
+#         upData=JSONParser().parse(request)
+#         data_update=Registration.objects.get(id=upData['id'])
+#         ser_data=staff_table(data_update,upData)
+#         if(ser_data.is_valid()):
+#             ser_data.save()
+#             return JsonResponse('data updated successfully',safe=False)
+#         else:
+#             return JsonResponse('data updation failed',safe=False)
     
 @csrf_exempt
 def teachers_details_fn(request):
@@ -604,8 +580,14 @@ def updateAjDataFn(request):
     details=[{'id':data.id,'name':data.name,'place':data.place,'email':data.email}]
     return JsonResponse({'data':details})
 
+@login_required()
+def dashboardFun(request):
+    return render(request,'accounts/profile.html')
 
-    
+def admRegister(request):
+    form=UserCreationForm()
+    return render(request,'registration/create.html',{'form':form}) 
+
 
 
 

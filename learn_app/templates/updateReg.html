@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/saveUpdate/{{key1.id}}" method="POST">
+    <form action="saveUpdate/{{key1.id}}" method="POST">
         {% csrf_token %}
         <input type="text" name="fname" value="{{key1.first_name}}">
         <input type="text" name="lname" value="{{key1.last_name}}">
