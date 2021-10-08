@@ -63,8 +63,14 @@
                     </div>
                     <div class="form-group">
                         <label for="">Class:</label>
-                        <input type="text" class="form-control" id="class1" name="class1">
-                        <small id="err_class" class=""></small>
+                        <select name="class1" class="form-control" id="class1">
+                            <option value="">Please select class</option>
+                            {% for x in class %}
+                            <option value="{{x.id}}">{{x.classes}}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- <input type="text" class="form-control" id="class1" name="class1"> -->
+                        <!-- <small id="err_class" class=""></small> -->
                     </div>
                     <div class="form-group">
                         <label for="">contact no:</label>
@@ -249,30 +255,30 @@
                     
 
                 //     /////////class validation
-                    class1 = document.forms["valform"]["class1"].value;
-                    if (class1 == "") {
-                        document.getElementById("err_class").innerHTML = "enter your class"
-                        document.getElementById('class1').style.borderColor = "red";
-                        document.forms["valform"]["class1"].focus();
-                        rt = false;
-                    } else if (isNaN(class1)) {
-                        if (class1 != 'LKG' && class1 != 'UKG') {
+                    // class1 = document.forms["valform"]["class1"].value;
+                    // if (class1 == "") {
+                    //     document.getElementById("err_class").innerHTML = "enter your class"
+                    //     document.getElementById('class1').style.borderColor = "red";
+                    //     document.forms["valform"]["class1"].focus();
+                    //     rt = false;
+                    // } else if (isNaN(class1)) {
+                    //     if (class1 != 'LKG' && class1 != 'UKG') {
 
-                            document.getElementById("err_class").innerHTML = "Enter a valid class name!"
-                            document.getElementById('class1').style.borderColor = "red";
-                            document.forms["valform"]["class1"].focus();
-                            rt = false;
-                        }
-                    } else if (class1 > 10 || class1 == 0) {
-                        document.getElementById("err_class").innerHTML = "class seems incorrect!"
-                        document.getElementById('class1').style.borderColor = "red";
-                        document.forms["valform"]["class1"].focus();
-                        rt = false
+                    //         document.getElementById("err_class").innerHTML = "Enter a valid class name!"
+                    //         document.getElementById('class1').style.borderColor = "red";
+                    //         document.forms["valform"]["class1"].focus();
+                    //         rt = false;
+                    //     }
+                    // } else if (class1 > 10 || class1 == 0) {
+                    //     document.getElementById("err_class").innerHTML = "class seems incorrect!"
+                    //     document.getElementById('class1').style.borderColor = "red";
+                    //     document.forms["valform"]["class1"].focus();
+                    //     rt = false
 
-                    } else {
-                        document.getElementById("err_class").innerHTML = ""
-                        document.getElementById('class1').style.borderColor = "grey";
-                    }
+                    // } else {
+                    //     document.getElementById("err_class").innerHTML = ""
+                    //     document.getElementById('class1').style.borderColor = "grey";
+                    // }
 
                 //     /////////////////////////
 

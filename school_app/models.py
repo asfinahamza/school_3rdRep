@@ -20,13 +20,15 @@ class Staff(models.Model):
     status=models.CharField(max_length=50,blank=True)
 
 
+class AddedClasses(models.Model):
+    classes=models.CharField(max_length=50)
 
 
 class Students(models.Model):
     registration_id=models.AutoField(primary_key=True)
     first_name=models.CharField(max_length=50,default=None)
     last_name=models.CharField(max_length=50,default=None)
-    classes=models.CharField(max_length=50,default=None)
+    classes=models.ForeignKey(AddedClasses,on_delete=models.CASCADE)
     contact=models.BigIntegerField(default=None)
     address=models.CharField(max_length=500,default=None)
     dob=models.DateField(default=None)
@@ -44,10 +46,6 @@ class Teachers(models.Model):
     contact=models.BigIntegerField()
 
 class Classes(models.Model):
-    classes=models.CharField(max_length=50)
-
-
-class AddedClasses(models.Model):
     classes=models.CharField(max_length=50)
 
 class Subjects(models.Model):

@@ -67,6 +67,41 @@ def adminLogoutFun(request):
     del request.session['admin_id']
     return redirect('adminLogin')
 
+def classfn(request):       
+    content=AddedClasses.objects.all()                            
+    cl=Classes.objects.all()
+    subj=Subjects.objects.all()
+    teachers=Staff.objects.all()
+    clTeacher=ClassTeacher.objects.all()
+    subj_details=AddedSubjects.objects.select_related('classes')
+    class_details=ClassTeacher.objects.select_related('teacher','classes')
+    return render(request,'manage_class.html',{'key2':cl,'key3':subj,'key4':content,'teacher':teachers,'key6':subj_details,'key7':clTeacher,'key8':class_details})
+
+
+
+def deleteClassFn(request,id):
+    AddedClasses.objects.get(id=id).delete()
+    return redirect('class')
+
+def deleteSubjectFn(request,id):
+    AddedSubjects.objects.get(id=id).delete()
+    return redirect('class')
+
+def deleteClassTeacherFn(request,id):
+    ClassTeacher.objects.get(id=id).delete()
+    return redirect('class')
+
+def addClassFn(request):
+    class_name=request.POST['classes']
+    try:
+        exixting_cls=AddedClasses.objects.get(classes=class_name)
+        return JsonResponse({'messages':'Class already exists'})
+    except AddedClasses.DoesNotExist:
+        addCls=AddedClasses(classes=class_name)
+        addCls.save()
+        return JsonResponse({'messages':'class has been created successfully'})
+    
+
 
 def studentReg(request):
     if(request.method == 'POST'):
@@ -83,11 +118,12 @@ def studentReg(request):
         # print(filename)
         photo=FileSystemStorage()
         photo.save(filename,profile_pic)
-        stdata=Students(first_name=st_fname,last_name=st_lname,classes=st_class,contact=st_contact,address=st_address,dob=st_dob,user_name=st_uname,password=st_pswd,profile_pic=filename)
+        stdata=Students(first_name=st_fname,last_name=st_lname,classes_id=st_class,contact=st_contact,address=st_address,dob=st_dob,user_name=st_uname,password=st_pswd,profile_pic=filename)
         stdata.save()
         return redirect('studentLogin')
 
-    return render(request,'student_reg.html')
+    content=AddedClasses.objects.all()
+    return render(request,'student_reg.html',{'class':content})
 
 
 
@@ -118,7 +154,8 @@ def stdntDashfn(request):
 def studentProfileFn(request):
     user_id=request.session['student_id']
     user_data=Students.objects.get(registration_id=user_id)
-    return render(request,'studentProfile.html',{'data':user_data})
+    class_details=Students.objects.select_related('classes')
+    return render(request,'studentProfile.html',{'data':user_data,'class':class_details})
 
 
 def chapterFunction(request):
@@ -234,7 +271,6 @@ def chapterInSubjectFun(request):
 
 
 def subjectsFun(request):
-
     return render(request,'subjects.html')
 
 def examFunction(request):
@@ -268,7 +304,8 @@ def rejectStaffFunction(request,id):
 
 def studentDetailsFunction(request,id):
     content=Students.objects.get(registration_id=id)
-    return render(request,'studentDetails.html',{'sudent_data':content})
+    class_details=Students.objects.select_related('classes')
+    return render(request,'studentDetails.html',{'sudent_data':content,'class_data':class_details})
 
 def verifyStudentFunction(request,id):
     Students.objects.filter(registration_id=id).update(status='active')
@@ -354,40 +391,7 @@ def subjMg(request):
     return render(request,'subjectMgmt.html',{'key4':classData,'key3':subj,'teacher':teachers,'key6':subj_details})
 
 
-def classfn(request):       
-    content=AddedClasses.objects.all()                            
-    cl=Classes.objects.all()
-    subj=Subjects.objects.all()
-    teachers=Staff.objects.all()
-    clTeacher=ClassTeacher.objects.all()
-    subj_details=AddedSubjects.objects.select_related('classes')
-    class_details=ClassTeacher.objects.select_related('teacher','classes')
-    return render(request,'manage_class.html',{'key2':cl,'key3':subj,'key4':content,'teacher':teachers,'key6':subj_details,'key7':clTeacher,'key8':class_details})
 
-
-
-def deleteClassFn(request,id):
-    AddedClasses.objects.get(id=id).delete()
-    return redirect('class')
-
-def deleteSubjectFn(request,id):
-    AddedSubjects.objects.get(id=id).delete()
-    return redirect('class')
-
-def deleteClassTeacherFn(request,id):
-    ClassTeacher.objects.get(id=id).delete()
-    return redirect('class')
-
-def addClassFn(request):
-    class_name=request.POST['classes']
-    try:
-        exixting_cls=AddedClasses.objects.get(classes=class_name)
-        return JsonResponse({'messages':'Class already exists'})
-    except AddedClasses.DoesNotExist:
-        addCls=AddedClasses(classes=class_name)
-        addCls.save()
-        return JsonResponse({'messages':'class has been created successfully'})
-    
 def addsubjectfn(request):
     subjects=request.POST['subject']
     classID=request.POST['class']
