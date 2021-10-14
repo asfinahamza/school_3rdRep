@@ -22,12 +22,14 @@
                     <th>Name</th>
                     <th>Contact</th>
                     <th>Status</th>
+                    <th></th>
                 </tr>
                 {% for x in key %}
                 <tr>
                     <td>{{x.registration_id}}</td>
                     <td>{{x.first_name}} {{x.last_name}}</td>
                     <td>{{x.contact}}</td>
+                    <td>{{x.status}}</td>
                     <td>
                         
                             <a href="/studentDetails/{{x.registration_id}}" class="btn btn-success">View</a>

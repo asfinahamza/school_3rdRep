@@ -160,8 +160,14 @@ def studentProfileFn(request):
 
 def chapterFunction(request):
     user_id=request.session['student_id']
-    user_data=Students.objects.get(registration_id=user_id)
-    return render(request,'studentChapter.html',{'data':user_data})
+    # user_data=Students.objects.get(registration_id=user_id)
+    # classes=Students.objects.select_related('classes').get(registration_id=user_id)
+    # subject=AddedSubjects.objects.filter(classes=classes)
+    # topic_list=Topic.objects.filter(subject_id=)
+    # subject_details=Topic.objects.select_related('classes','subject')
+    
+    
+    return render(request,'studentChapter.html')
 
 
 def studentLogout_fn(request):
@@ -263,15 +269,19 @@ def chapterInSubjectFun(request):
     chapter_details=[{'id':x.id,'chapter':x.chapter}for x in chapters]
     return JsonResponse({'ch_data':chapter_details})
 
-
-
-
-
-
-
-
+  
 def subjectsFun(request):
-    return render(request,'subjects.html')
+    user_id=request.session['student_id']
+    # student=Students.objects.get(registration_id=user_id)
+    # classData=Students.objects.select_related('cl')
+    # classes=Students.objects.get(classes_id=student.classes_id)   
+    classes=Students.objects.select_related('classes').get(registration_id=user_id)
+    subjectList=AddedSubjects.objects.filter(classes_id=classes.classes.id)
+    print(subjectList)
+    # subjects=AddedSubjects.objects.filter(classes_id=student.)
+    # subject=AddedSubjects.objects.filter(classes_id=class_id)
+    return render(request,'subjects.html',{'sub':subjectList})
+    # ,{'student':student,'class':classes,'subject':subject_id}
 
 def examFunction(request):
     return render(request,'exam.html')
@@ -474,11 +484,39 @@ def updateAPIfn(request):
     Staff.objects.filter(registration_id=data['registration_id']).update(first_name=data['fname'],last_name=data['lname'],email=data['email'],contact=data['contact'],address=data['address'],dob=data['dob'],user_name=data['uname'],password=data['password'],profile_pic=data['pic'])
     return Response('Data updated successfully')
 
+
+# student_registration API
+@api_view(['GET'])
+def viewStudentAPIfn(request):
+    student_details=Students.objects.all()
+    st_data=[{'id':x.registration_id,'first_name':x.first_name,'last_name':x.last_name,'classes':x.classes.classes,'contact':x.contact,'address':x.address,'dob':x.dob,'username':x.user_name,'password':x.password,'profile_pic':x.profile_pic}for x in student_details]
+    return JsonResponse({'data':st_data})
+@api_view(['POST'])
+def postStudentAPIfn(request):
+    data=request.data
+    st_data=Students(first_name=data['fname'],last_name=data['lname'],classes_id=data['classes'],contact=data['contact'],address=data['address'],dob=data['dob'],user_name=data['uname'],password=data['password'],profile_pic=data['pic'])
+    st_data.save()
+    return Response('Data inserted successfully')
+
+@api_view(['POST'])
+def deleteStudentAPIfn(request):
+    data=request.data
+    Students.objects.get(registration_id=data['id']).delete()
+    return Response('data deleted succuessfully')
+
+@api_view(['POST'])
+def updateStudentAPIfn(request):
+    data=request.data
+    Students.objects.filter(registration_id=data['id']).update(first_name=data['fname'],last_name=data['lname'],classes_id=data['classes'],contact=data['contact'],address=data['address'],dob=data['dob'],user_name=data['uname'],password=data['password'],profile_pic=data['pic'])
+    return Response('data updated succuessfully')
+
+
 @api_view(['GET'])
 def viewAPI2fn(request):
     user_details=Registration.objects.all()
     userdata=[{'fname':x.first_name,'lname':x.last_name,'place':x.place,'mailID':x.email,'contact':x.contact,'dob':x.dob}for x in user_details]
     return JsonResponse({'data':userdata})
+
 
 @api_view(['POST'])
 def postAPI2fn(request):

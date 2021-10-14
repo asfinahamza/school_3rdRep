@@ -167,37 +167,7 @@
 
   </div>
 
-    <table class="table" width="100%" align="center">
-      <tr class="table-secondary">
-          <th rowspan="2">ID</th>
-          <th rowspan="2">Class Name</th>
-          <th rowspan="2">Class Teacher</th>
-          <th colspan="4">Subjects</th>
-          <th colspan="2" rowspan="2">Action</th>
-      </tr>
-      
-      <tr class="table-secondary">
-          <th>sub 1</th>
-          <th>sub 2</th>
-          <th>sub 3</th>
-          <th>sub 4</th>
-      </tr>
-      {% for x in key8 %}
-     
-      <tr>
-        <th scope="row">{{x.id}}</th>
-        <td>{{x.classes.classes}}</td>
-        <td>{{x.teacher.first_name}}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td align="center"><a href=" /delete/{{x.id}}" onclick="return confirm('Press ok to conform')" style="color: red;"><i class="fa fa-trash"></i></a></td>
-        <td align="center"><a href=" /update/{{x.id}}" style="color: rgb(70, 28, 148);"><i class="fa fa-pencil"></i></a></td>
-      </tr>
-      {% endfor %}
-      
-  </table>
+    
 
   </div>
 
