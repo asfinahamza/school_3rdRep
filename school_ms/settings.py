@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'school_app',
     'learn_app',
+    'myapp',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'school_ms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'schooldemo',
+        'NAME': 'school3',
         'USER': 'postgres',
         'PASSWORD': 'Aydin123',
         'HOST':'localhost',
@@ -141,8 +142,9 @@ STATICFILES_DIRS=[
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-MEDIA_URL = '/school_app/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'school_app/media')
+MEDIA_URL = '/myapp/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'myapp/media')
+# MEDIA_URL = '/school_app/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR,'school_app/media')
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGOUT_REDIRECT_URL = '/accounts/login/'

@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block dash1 %}
+{% load static %}
+       
+
+            <table class="table mt-5" width="100%" align="center">
+                <tr class="table-secondary">
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>age</th>
+                    <!-- <th colspan="2">marks scored</th> -->
+                    <th>Action</th>
+                </tr>
+                {% for x in data %}
+                <tr>
+                    <td>{{x.id}}</td>
+                    <td>{{x.name}}</td>
+                    <td>{{x.contact}}</td>
+                    <td>{{x.age}}</td>
+                    <!-- <td></td> -->
+                    <!-- <td align="center"><a href=" /learn/update/{{x.id}}" style="color: rgb(70, 28, 148);"><i class="fa fa-pencil"></i></a></td> -->
+                    <!-- <td><img class="mt-4 mb-5" src="/myapp/media/{{x.profile_pic}}" alt="" height="150" width="150"></td> -->
+                    <td>
+                        
+                            <a href="/studentDetails/{{x.id}}" class="btn btn-success">View</a>
+                       
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+{% endblock %}
+          

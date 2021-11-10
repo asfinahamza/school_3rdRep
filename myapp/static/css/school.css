@@ -1,0 +1,90 @@
+        .bimg1{
+            background-image: url('../img/school2.jpg');
+            background-size: cover;
+            height: 800px;
+        }
+        nav{
+          background: transparent;
+          /* color: white; */
+        }
+        a{
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          font-size: 20px;
+        }
+        .cnt1{
+          
+          font-size: 50px;
+          color: rgb(8, 31, 10);
+          padding-top: 50px;
+          font-family: cursive;
+
+        }
+        .cnt2{
+          
+          font-size: 50px;
+          color: rgb(8, 31, 10);
+          padding-top: 20px;
+          text-align: center;
+
+        }
+        .white{
+          color: white;
+          
+        }
+        a:hover{
+          background-color: white;
+        }
+        .p1{
+          text-align: center;
+          margin-top: 100px;
+          font-family:cursive;
+          color: rgb(8, 31, 10);
+          padding: 50px 50px 50px 50px;
+        }
+        .p2{
+          margin-top: 100px;
+          color: rgb(8, 31, 10);
+          padding: 30px 30px 30px 30px;
+          font-family:cursive;
+        }
+        .p3{
+          text-align: center;
+          margin-top: 100px;
+          font-family:cursive;
+          font-size: 50px;
+          color: rgb(8, 31, 10);
+          padding: 50px 50px 50px 50px;
+        }
+        .fcimg{
+          height: 200px;
+          width: 180px;
+        }
+        h1{
+          
+          font-family: cursive;
+        }
+        .cl1{
+          background: linear-gradient(rgb(199, 199, 243),white);
+        }
+        .cl2{
+          background: linear-gradient(white,rgb(199, 199, 243));
+        }
+        .button2{
+         
+          margin-top: 20px;
+          width: 300px;
+        }
+        .ved2{
+         
+          margin-top: 10px;
+          width: 800px;
+        }
+        table{
+          margin-top: 200px;
+        }
+        
+        .tble1{
+          margin: 150px 50px 50px 50px; 
+          
+        }
+        

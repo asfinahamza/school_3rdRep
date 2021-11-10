@@ -1,0 +1,41 @@
+{% extends 'studentDash.html' %}
+{% block stdash1 %}
+{% load static %}
+
+
+<div class="card card-profile">
+<table class="table-profile mt-3 mb-5" align="center">
+    <tr>
+        <td align="center"><h2>PROFILE</h2></td>
+    </tr>
+    <tr>
+        <td><img class="mt-4 mb-5" src="/myapp/media/{{data.profile_pic}}" alt="" height="150" width="150"></td>
+    </tr>
+    <tr>
+        
+        <td>Name:</td>
+        <td>{{data.name}}</td>
+    </tr>
+    
+    <tr>
+        <td>Age</td>
+        <td>{{data.age}}</td>
+    </tr>
+    
+    <tr>
+        <td>contact</td>
+        <td>{{data.contact}}</td>
+    </tr>
+
+    
+</table>
+<a class="btn btn-secondary" href="updatestudentProfile">Click here to edit</a>
+</div>
+   
+{% endblock %}
+
+
+
+
+
+
