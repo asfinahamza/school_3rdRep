@@ -146,7 +146,7 @@ def studentLoginFn(request):
 def stdntDashfn(request):
     user_id=request.session['student_id']
     user_data=Students.objects.get(registration_id=user_id)
-    return render(request,'studentDB.html',{'data':user_data})
+    return render(request,'studentDB.html',{'datadata':user_data})
 
 
 
@@ -157,11 +157,11 @@ def studentProfileFn(request):
     class_details=Students.objects.select_related('classes')
     return render(request,'studentProfile.html',{'data':user_data,'class':class_details})
 
-
+##
 def chapterFunction(request):
     user_id=request.session['student_id']
     # user_data=Students.objects.get(registration_id=user_id)
-    # classes=Students.objects.select_related('classes').get(registration_id=user_id)
+    classes=Students.objects.select_related('classes').get(registration_id=user_id)
     # subject=AddedSubjects.objects.filter(classes=classes)
     # topic_list=Topic.objects.filter(subject_id=)
     # subject_details=Topic.objects.select_related('classes','subject')

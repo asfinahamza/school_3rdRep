@@ -1,11 +1,12 @@
 {% extends 'studentDB.html' %}
 {% block stdash1 %}
 {% load static %}
+<div class="row row-cols-1 row-cols-md-3">
+  
 {% for x in sub %}
 <div class="container" align="center">
-    <div class="row row-cols-1 row-cols-md-3">
-        <div class="col mb-4">
-          <a href="/chapters">
+  <div class="col mb-4">
+          <a href="/chapters/{}}">
           <div class="card text-white bg-secondary">
             <div class="card-body">
               <h5 class="card-title">{{x.subject}}</h5>
@@ -13,8 +14,9 @@
             </div>
           </div>
         </a>
-        </div>
-    </div>
+      </div>
 </div> 
 {% endfor %} 
+
+</div>
 {% endblock %}
